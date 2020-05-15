@@ -244,13 +244,26 @@ namespace Problems
         [Test]
         public void Problem14()
         {
-            long[] numbers = new long[3_000_000];
-
-            var maxY = numbers.GetLength(0);
-            for (int y = 2; y < maxY; y++)
-            {
-            }
+            var solver = new Problem14Solver();
+            var answer = solver.Solve();
         }
+
+        public class Problem14Solver
+        {
+            private long[] sums = new long[3_000_000];
+
+            public long Solve()
+            {
+
+            }
+
+            public long Next(long number)
+                =>
+                    number % 2 == 0
+                        ? number / 2
+                        : 3 * number + 1;
+        }
+
 
         [Test]
         public void Problem15()
@@ -271,6 +284,19 @@ namespace Problems
                 }
 
             Assert.That(corners[0,0], Is.EqualTo(137846528820));
+        }
+
+        [Test]
+        public void Problem16()
+        {
+            var operationResult = new BigInteger(2) << 999;
+
+            var answer = operationResult
+                .ToString()
+                .Select(x => long.Parse(x.ToString()))
+                .Sum();
+
+            Assert.That(answer, Is.EqualTo(1366));
         }
     }
 }
