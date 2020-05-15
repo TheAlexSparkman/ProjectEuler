@@ -8,7 +8,6 @@ namespace Problems
 {
     public class Functions
     {
-
         public static long LargestPrimeFactor(long number)
         {
             long sqrt = (long)Math.Floor(Math.Sqrt(number));
@@ -82,5 +81,11 @@ namespace Problems
 
             return sum * sum;
         }
+
+        public static long NextCollatz(long number)
+            =>
+                number % 2 == 0
+                    ? number / 2
+                    : 3 * number + 1;
     }
 }

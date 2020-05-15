@@ -50,5 +50,28 @@ namespace Problems
                 i++;
             }
         }
+        public static List<long> UniqueDivisors(long number)
+            => Divisors(number)
+                .Distinct()
+                .ToList();
+
+        private static IEnumerable<long> Divisors(long number)
+        {
+            long sqrt = (long)Math.Floor(Math.Sqrt(number));
+            yield return 1;
+            for (long i = 2; i <= sqrt; i++)
+            {
+                if (number % i == 0)
+                {
+                    yield return i;
+                    foreach (var factor in Divisors(number / i))
+                        yield return factor;
+                    yield return number / i;
+
+                    break;
+                }
+            }
+            yield return number;
+        }
     }
 }
