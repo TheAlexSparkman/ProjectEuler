@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Microsoft.Win32;
+using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -72,6 +73,38 @@ namespace Problems
             }
 
             Assert.That(string.Join("", answer), Is.EqualTo("2783915460"));
+        }
+
+        [Test]
+        public void Problem29()
+        {
+            // 2 <= a <= 100
+            // 2 <= b <= 100
+            // a ^ b
+            // This produces ~10,000 terms.
+
+            // Let the set A2 be the set of numbers a = 2
+            // Let the set A4 be set of numbers a = 4
+            // Let the set A8 be set of numbers a = 8
+
+            // Sets A2 and A4 overlap, but have exclusive elements.
+            // e.g. A2 where b = 2, or b is odd.
+            //      A4 where 51 <= b <= 100
+
+            // Sets A4 and A8 overlap
+            // There is probably a neat trick to get around a brute
+            // force approach, but this runs in less than 26ms
+
+            var uniqueInts = new SortedSet<BigInteger>();
+            for (BigInteger a = new BigInteger(2); a <= 100; a++)
+            {
+                for (int b = 2; b <= 100; b++)
+                {
+                    uniqueInts.Add(BigInteger.Pow(a, b));
+                }
+            }
+
+            Assert.That(uniqueInts.Count, Is.EqualTo(9_183));
         }
     }
 }
