@@ -97,5 +97,8 @@ namespace Problems
 
             return result;
         }
+
+        public static BigInteger Permutations(long n, long r)
+            => Factorial(n) / Factorial(n - r);
     }
 }
