@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -254,7 +255,7 @@ namespace Problems
 
             public long Solve()
             {
-
+                throw new NotImplementedException();
             }
 
             public long Next(long number)
@@ -337,6 +338,121 @@ namespace Problems
             //   - For the rest of the rows, the verices will be the space between each number.
             // Edge weights will be negated.
             // Apply shortest distance algorithm.
+
+
+            // What are the input sizes for this?
+            // rows: 321 - 307 + 1 = 15
+            // How many vertices are there?
+            //   The arithmetic series minus + 1 is equal to the number of vertices.
+            //   arithmetic series:
+            //     n = (rows - 1)
+            //     105 = (14^2 + 14)/2
+            //   vertices = 106
+            // How many edges are there?
+            //   1 + 2 * (arithemetic series from 1 to rows - 2)
+            //     n = (rows - 2)
+            //     91 = (13^2 + 13)/2
+            //   183
+
+
+
+
+
+        }
+
+        #region Problem 18
+        public struct Node
+        {
+            public Node(int row, int gapNumber, bool isLeaf, bool isRoot, int downWeight, int leftWeight, int rightWeight)
+            {
+                Row = row;
+                GapNumber = gapNumber;
+                IsLeaf = isLeaf;
+                IsRoot = isRoot;
+                DownWeight = downWeight;
+                LeftWeight = leftWeight;
+                RightWeight = rightWeight;
+            }
+
+            public int Row { get; set; }
+            public int GapNumber { get; set; }
+
+            public bool IsLeaf { get; set; }
+            public bool IsRoot { get; set; }
+
+            /// <summary>
+            /// This will be used when IsLeaf || IsRoot
+            /// </summary>
+            public int DownWeight { get; set; }
+
+            public int LeftWeight { get; set; }
+            public int RightWeight { get; set; }
+
+            public static Node ConstructGraph(int[][] rows, int startRow = 0, int startGap = 0)
+            {
+                for (var row = 0; row < rows.Length; row++)
+                {
+                    for (var gapNumber = 0; gapNumber < rows[row].Length - 1; gapNumber++)
+                    {
+                        GetNode(rows, row, gapNumber);
+                    }
+                }
+
+                throw new NotImplementedException();
+            }
+
+            internal static Node GetNode(int[][] rows, int row, int gapNumber)
+            {
+                if (row == 0)
+                {
+                    return new Node(
+                            row: row,
+                            gapNumber: gapNumber,
+                            isLeaf: false,
+                            isRoot: true,
+                            downWeight: rows[0][0],
+                            leftWeight: 0,
+                            rightWeight: 0
+                        );
+                }
+                else if (row == rows.Length - 1)
+                {
+                    return new Node(
+                            row: row,
+                            gapNumber: gapNumber,
+                            isLeaf: false,
+                            isRoot: true,
+                            downWeight: rows[row][gapNumber],
+                            leftWeight: 0,
+                            rightWeight: 0
+                        );
+                }
+                else
+                {
+                    return new Node(
+                            row: row,
+                            gapNumber: gapNumber,
+                            isLeaf: false,
+                            isRoot: false,
+                            downWeight: 0,
+                            leftWeight: rows[row][gapNumber],
+                            rightWeight: rows[row][gapNumber + 1]
+                        );
+                }
+            }
+        }
+
+        #endregion
+
+        [Test]
+        public void Problem20()
+        {
+            var sum = Functions.Factorial(100)
+                .ToString()
+                .Select(x => long.Parse(x.ToString()))
+                .Sum();
+
+            Assert.That(sum, Is.EqualTo(648));
         }
     }
 }

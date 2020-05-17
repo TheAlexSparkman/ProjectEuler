@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -87,5 +88,14 @@ namespace Problems
                 number % 2 == 0
                     ? number / 2
                     : 3 * number + 1;
+
+        public static BigInteger Factorial(long number)
+        {
+            var result = new BigInteger(1);
+            for (var i = 1; i <= number; i++)
+                result *= i;
+
+            return result;
+        }
     }
 }
