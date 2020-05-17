@@ -31,23 +31,33 @@ namespace Problems
             => LargestPrimeFactor(number) == number;
 
         public static bool IsPalindrome(int num)
+            => IsPalindrome(num.ToString());
+
+        public static bool IsPalindrome(string str)
         {
-            var numStr = num.ToString();
+            if (str.Length == 1)
+                return true;
 
-            if (numStr.Length % 2 != 0)
-                return false;
-
-            var left = numStr.Substring(0, numStr.Length / 2);
+            string left;
             string right;
-
-            var builder = new StringBuilder();
-            for (int i = numStr.Length - 1; numStr.Length / 2 <= i; i--)
+            if (str.Length % 2 == 1)
             {
-                builder.Append(numStr[i]);
+                left = str.Substring(0, str.Length / 2);
+                right = str.Substring(str.Length / 2 + 1);
             }
-            right = builder.ToString();
+            else
+            {
+                left = str.Substring(0, str.Length / 2);
+                right = str.Substring(str.Length / 2);
+            }
 
-            return left == right;
+            for (int i = 0; i < left.Length; i++)
+            {
+                if (left[i] != right[right.Length - i - 1])
+                    return false;
+            }
+
+            return true;
         }
 
         public static bool IsDivisibleBy1To20(long num)

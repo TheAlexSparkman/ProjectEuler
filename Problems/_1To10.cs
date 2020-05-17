@@ -70,7 +70,7 @@ namespace Problems
                 }
             }
 
-            Console.WriteLine(largestPalindrome);
+            Assert.That(largestPalindrome, Is.EqualTo(906_609));
         }
 
         [Test]
