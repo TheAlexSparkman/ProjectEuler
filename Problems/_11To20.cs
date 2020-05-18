@@ -232,7 +232,6 @@ namespace Problems
 53503534226472524250874054075591789781264330331690";
 
             var numbers = numbersStr.Split(new string[] { "\r\n" }, StringSplitOptions.None)
-                .Select(x => x.Substring(x.Length - 10, 10))
                 .Select(x => BigInteger.Parse(x))
                 .ToList();
 
@@ -242,7 +241,8 @@ namespace Problems
                 sum += number;
             }
 
-            Console.WriteLine(sum.ToString());
+            var answer = sum.ToString().Substring(0, 10);
+            Assert.That(answer, Is.EqualTo("5537376230"));
         }
 
         [Test]
