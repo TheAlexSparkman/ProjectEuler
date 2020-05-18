@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Problems.MaxSumPath;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +15,7 @@ using System.Threading.Tasks;
 namespace Problems
 {
     [TestFixture]
-    public class _11To20
+    public partial class _11To20
     {
         [Test]
         public void Problem11()
@@ -341,25 +343,9 @@ namespace Problems
 63 66 04 68 89 53 67 30 73 16 69 87 40 31
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23";
 
-            var rows = triangle
-                .Split(new string[] { "\r\n" }, StringSplitOptions.None)
-                .Select(
-                    row
-                        =>
-                    row.Split(' ')
-                        .Select(number => int.Parse(number))
-                        .ToArray()
-                    )
-                .ToArray();
-
-            // Translate this into a graph.
-            // The edges will be represented by the numbers.
-            // The vertices
-            //   - For the top row, the vertex will be above the number.
-            //   - For the rest of the rows, the verices will be the space between each number.
-            // Edge weights will be negated.
-            // Apply shortest distance algorithm.
-
+            var solver = new MaxSumPathSolver();
+            var answer = solver.Solve(triangle);
+            Assert.That(answer, Is.EqualTo(1074));
 
             // What are the input sizes for this?
             // rows: 321 - 307 + 1 = 15
@@ -374,96 +360,7 @@ namespace Problems
             //     n = (rows - 2)
             //     91 = (13^2 + 13)/2
             //   183
-
-
-
-
-
         }
-
-        #region Problem 18
-        public struct Node
-        {
-            public Node(int row, int gapNumber, bool isLeaf, bool isRoot, int downWeight, int leftWeight, int rightWeight)
-            {
-                Row = row;
-                GapNumber = gapNumber;
-                IsLeaf = isLeaf;
-                IsRoot = isRoot;
-                DownWeight = downWeight;
-                LeftWeight = leftWeight;
-                RightWeight = rightWeight;
-            }
-
-            public int Row { get; set; }
-            public int GapNumber { get; set; }
-
-            public bool IsLeaf { get; set; }
-            public bool IsRoot { get; set; }
-
-            /// <summary>
-            /// This will be used when IsLeaf || IsRoot
-            /// </summary>
-            public int DownWeight { get; set; }
-
-            public int LeftWeight { get; set; }
-            public int RightWeight { get; set; }
-
-            public static Node ConstructGraph(int[][] rows, int startRow = 0, int startGap = 0)
-            {
-                for (var row = 0; row < rows.Length; row++)
-                {
-                    for (var gapNumber = 0; gapNumber < rows[row].Length - 1; gapNumber++)
-                    {
-                        GetNode(rows, row, gapNumber);
-                    }
-                }
-
-                throw new NotImplementedException();
-            }
-
-            internal static Node GetNode(int[][] rows, int row, int gapNumber)
-            {
-                if (row == 0)
-                {
-                    return new Node(
-                            row: row,
-                            gapNumber: gapNumber,
-                            isLeaf: false,
-                            isRoot: true,
-                            downWeight: rows[0][0],
-                            leftWeight: 0,
-                            rightWeight: 0
-                        );
-                }
-                else if (row == rows.Length - 1)
-                {
-                    return new Node(
-                            row: row,
-                            gapNumber: gapNumber,
-                            isLeaf: false,
-                            isRoot: true,
-                            downWeight: rows[row][gapNumber],
-                            leftWeight: 0,
-                            rightWeight: 0
-                        );
-                }
-                else
-                {
-                    return new Node(
-                            row: row,
-                            gapNumber: gapNumber,
-                            isLeaf: false,
-                            isRoot: false,
-                            downWeight: 0,
-                            leftWeight: rows[row][gapNumber],
-                            rightWeight: rows[row][gapNumber + 1]
-                        );
-                }
-            }
-        }
-
-        #endregion
 
         #region Problem 19
         [Test]

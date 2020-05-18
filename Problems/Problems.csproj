@@ -49,7 +49,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MaxSumPath\MaxSumPathSolver.cs" />
     <Compile Include="Series.cs" />
+    <Compile Include="MaxSumPath\Vertex.cs" />
+    <Compile Include="MaxSumPath\WDiEdge.cs" />
     <Compile Include="_11To20.cs" />
     <Compile Include="_1To10.cs" />
     <Compile Include="Functions.cs" />
