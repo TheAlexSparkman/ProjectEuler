@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -247,15 +248,35 @@ namespace Problems
         {
             var solver = new Problem14Solver();
             var answer = solver.Solve();
+
+            Assert.That(answer, Is.EqualTo(837_799));
         }
 
         public class Problem14Solver
         {
-            private long[] sums = new long[3_000_000];
-
             public long Solve()
             {
-                throw new NotImplementedException();
+                long longestPathLength = 1;
+                long numberWithLongestPath = 1;
+                for (long i = 2; i < 1_000_000; i++)
+                {
+                    var pathLength = AssignPathLength(i);
+                    if (pathLength > longestPathLength)
+                    {
+                        longestPathLength = pathLength;
+                        numberWithLongestPath = i;
+                    }
+                }
+
+                return numberWithLongestPath;
+            }
+
+            public long AssignPathLength(long number)
+            {
+                if (number == 1)
+                    return 0;
+                else
+                    return AssignPathLength(Next(number)) + 1;
             }
 
             public long Next(long number)
