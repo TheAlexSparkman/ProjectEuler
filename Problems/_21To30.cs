@@ -76,6 +76,25 @@ namespace Problems
         }
 
         [Test]
+        public void Problem28()
+        {
+            var initial = 1;
+            var final = 500;
+
+            // top-left sum
+            var topRightSum = 4 * Series.SumOfSquares(final) + 4 * Series.Arithemtic(final) + final * 1;
+            var topLeftSum = topRightSum - 2 * Series.Arithemtic(final);
+            var bottomLeftSum = topRightSum - 4 * Series.Arithemtic(final);
+            var bottomRightSum = topRightSum - 6 * Series.Arithemtic(final);
+
+            var middle = 1;
+
+            var sum = middle + topRightSum + topLeftSum + bottomLeftSum + bottomRightSum;
+
+            Assert.That(sum, Is.EqualTo(669171001));
+        }
+
+        [Test]
         public void Problem29()
         {
             // 2 <= a <= 100

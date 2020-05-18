@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Series.cs" />
     <Compile Include="_11To20.cs" />
     <Compile Include="_1To10.cs" />
     <Compile Include="Functions.cs" />
