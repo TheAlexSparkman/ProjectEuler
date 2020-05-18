@@ -93,6 +93,41 @@ namespace Problems
         }
 
         [Test]
+        public void Problem27()
+        {
+            var primesUnder1M = new SortedSet<long>(
+                Sequences
+                    .PrimesUnder(1_000_000)
+                    .ToList()
+            );
+
+            var maxCount = 0;
+            var maxA = 0;
+            var maxB = 0;
+            for (int a = -999; a < 1000; a++)
+            {
+                for (int b = -1000; b <= 1000; b++)
+                {
+                    int n = 0;
+                    int count = 0;
+                    while (primesUnder1M.Contains(Math.Abs(n * n  + a * n + b)))
+                    {
+                        n++;
+                        count++;
+                    }
+                    if (count > maxCount)
+                    {
+                        maxA = a;
+                        maxB = b;
+                        maxCount = count;
+                    }
+                }
+            }
+
+            Assert.That(maxA * maxB, Is.EqualTo(-59231));
+        }
+
+        [Test]
         public void Problem28()
         {
             var initial = 1;
