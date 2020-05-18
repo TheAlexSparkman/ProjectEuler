@@ -444,6 +444,88 @@ namespace Problems
 
         #endregion
 
+        #region Problem 19
+        [Test]
+        public void Problem19()
+        {
+            int[] daysOfMonthForNonLeapYear
+                = new int[] { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+            const int daysInNonLeapYear = 365;
+            int[] daysOfMonthForLeapYear
+                = new int[] { 0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+            const int daysInLeapYear = 366;
+
+            var firstSundayOfYear = 7;
+            var sundaysOnFirstOfMonth = 0;
+            for (int year = 1900; year <= 2000; year++)
+            {
+                if (isLeapYear(year))
+                {
+                    var x = 0;
+                    for (var monthIndex = 0; monthIndex < daysOfMonthForLeapYear.Length - 1; monthIndex++)
+                    {
+                        x += daysOfMonthForLeapYear[monthIndex];
+                        var firstDayOfMonth = x + 1;
+
+                        if (firstSundayOfYear % 7 == firstDayOfMonth % 7
+                            && year > 1900
+                        )
+                            sundaysOnFirstOfMonth++;
+                    }
+
+                    if (firstSundayOfYear >= 3)
+                        firstSundayOfYear = (52 * 7 + firstSundayOfYear) % daysInLeapYear;
+                    else
+                        firstSundayOfYear = (53 * 7 + firstSundayOfYear) % daysInLeapYear;
+                }
+                else
+                {
+                    var x = 0;
+                    for (var monthIndex = 0; monthIndex < daysOfMonthForNonLeapYear.Length - 1; monthIndex++)
+                    {
+                        x += daysOfMonthForNonLeapYear[monthIndex];
+                        var firstDayOfMonth = x + 1;
+
+                        if (firstSundayOfYear % 7 == firstDayOfMonth % 7
+                            && year > 1900
+                        )
+                            sundaysOnFirstOfMonth++;
+                    }
+
+                    if (firstSundayOfYear >= 2)
+                        firstSundayOfYear = (52 * 7 + firstSundayOfYear) % daysInNonLeapYear;
+                    else
+                        firstSundayOfYear = (53 * 7 + firstSundayOfYear) % daysInNonLeapYear;
+                }
+            }
+
+            Assert.That(sundaysOnFirstOfMonth, Is.EqualTo(171));
+        }
+
+        private bool isLeapYear(int year)
+            => year % 400 == 0
+                || year % 4 == 0 && year % 100 != 0;
+
+        public enum Month
+        {
+            January = 1,
+            February = 2,
+            March = 3,
+            April = 4,
+            May = 5,
+            June = 6,
+            July = 7,
+            August = 8,
+            September = 9,
+            October = 10,
+            November = 11,
+            December = 12
+        }
+
+        #endregion
+
+
+
         [Test]
         public void Problem20()
         {
