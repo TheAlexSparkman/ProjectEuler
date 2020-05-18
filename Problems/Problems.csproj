@@ -60,12 +60,16 @@
     <Compile Include="Sequences.cs" />
     <Compile Include="_21To30.cs" />
     <Compile Include="_31To40.cs" />
+    <Compile Include="_61To70.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="names.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="p067_triangle.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
