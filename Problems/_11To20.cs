@@ -324,6 +324,50 @@ namespace Problems
         }
 
         [Test]
+        public void Problem17()
+        {
+            string[] _1To20 = new string[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
+                "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" };
+
+            string[] _tens = new string[] { "zero", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety" };
+
+            Func<int, string> toWord = null;
+            toWord = (number) => {
+                if (number <= 19)
+                {
+                    return _1To20[number];
+                }
+                else if (20 <= number && number < 100 && number % 10 == 0)
+                {
+                    return _tens[number / 10];
+                }
+                else if (20 <= number && number < 100)
+                {
+                    return _tens[number / 10] + " " + _1To20[number % 10];
+                }
+                else if (number == 1000)
+                {
+                    return "one thousand";
+                }
+                else if (100 <= number && number % 100 == 0)
+                {
+                    return _1To20[number / 100]  + " hundred";
+                }
+                else
+                {
+                    return _1To20[number / 100] + " hundred and " + toWord(number % 100);
+                }
+            };
+
+            var answer = Enumerable.Range(1, 1000)
+                .Select(toWord)
+                .Select(x => x.Replace(" ", ""))
+                .Sum(x => x.Length);
+
+            Assert.That(answer, Is.EqualTo(21_124));
+        }
+
+        [Test]
         public void Problem18()
         {
             var triangle =
