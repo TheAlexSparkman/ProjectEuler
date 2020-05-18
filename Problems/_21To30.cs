@@ -76,6 +76,23 @@ namespace Problems
         }
 
         [Test]
+        public void Problem25()
+        {
+            var sequence = Sequences.Fibonacci(new BigInteger(1), new BigInteger(1));
+
+            var index = 0;
+            foreach (var number in sequence)
+            {
+                index++;
+
+                if (number.ToString().Length == 1000)
+                    break;
+            }
+
+            Assert.That(index, Is.EqualTo(4_782));
+        }
+
+        [Test]
         public void Problem28()
         {
             var initial = 1;

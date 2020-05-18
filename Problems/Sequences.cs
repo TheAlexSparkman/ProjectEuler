@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,21 @@ namespace Problems
             yield return secondTerm;
 
             long temp;
+            while (true)
+            {
+                yield return firstTerm + secondTerm;
+                temp = secondTerm;
+                secondTerm = firstTerm + secondTerm;
+                firstTerm = temp;
+            }
+        }
+
+        public static IEnumerable<BigInteger> Fibonacci(BigInteger firstTerm, BigInteger secondTerm)
+        {
+            yield return firstTerm;
+            yield return secondTerm;
+
+            BigInteger temp;
             while (true)
             {
                 yield return firstTerm + secondTerm;
@@ -72,6 +88,30 @@ namespace Problems
                 }
             }
             yield return number;
+        }
+
+        public static IEnumerable<long> PrimesUnder(long n)
+        {
+            // Sieve of Eratosthenes.
+            var isComposite = new bool[n];
+            var sqrtOfN = (long)Math.Floor(Math.Sqrt(n));
+
+            long i;
+            for (i = 2; i <= sqrtOfN; i++)
+            {
+                if (!isComposite[i])
+                    for (long j = 0; i * i + j * i < n; j++)
+                        isComposite[i * i + i * j] = true;
+
+                if (!isComposite[i])
+                    yield return i;
+            }
+
+            for (; i < n; i++)
+            {
+                if (!isComposite[i])
+                    yield return i;
+            }
         }
     }
 }
