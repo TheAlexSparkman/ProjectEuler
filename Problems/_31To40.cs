@@ -13,6 +13,43 @@ namespace Problems
     public class _31To40
     {
         [Test]
+        public void Problem35()
+        {
+
+            var primesUnder1M = new SortedSet<long>(
+                Sequences
+                    .PrimesUnder(1_000_000)
+                    .ToList()
+            );
+
+
+            long count = 13; // 13 under 100 according to problem definition.
+            foreach (var prime in primesUnder1M.Where(x => x >= 100))
+            {
+                var allRotationsWereFound = true;
+
+                var primeStr = prime.ToString();
+                for (int rotationNo = 0; rotationNo < primeStr.Length - 1; rotationNo++)
+                {
+                    primeStr = primeStr.Substring(primeStr.Length - 1) + primeStr.Substring(0, primeStr.Length - 1);
+                    if (!primesUnder1M.Contains(long.Parse(primeStr)))
+                    {
+                        allRotationsWereFound = false;
+                        break;
+                    }
+                }
+
+
+                if (allRotationsWereFound)
+                {
+                    count++;
+                }
+            }
+
+            Assert.That(count, Is.EqualTo(55));
+        }
+
+        [Test]
         public void Problem36()
         {
             var sum = 0;
