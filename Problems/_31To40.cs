@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -103,6 +104,59 @@ namespace Problems
             }
 
             Assert.That(sum, Is.EqualTo(872_187));
+        }
+
+        [Test]
+        public void Problem37()
+        {
+            var primesUnder1M = new SortedSet<long>(
+                Sequences
+                    .PrimesUnder(1_000_000)
+                    .ToList()
+            );
+
+            long count = 0;
+            long sum = 0;
+            foreach (var prime in primesUnder1M.Where(x => x > 10))
+            {
+                var allTruncatesWereFound = true;
+                var modulus = 1_000_000;
+                while (prime > 0 && modulus > 1)
+                {
+                    if (!primesUnder1M.Contains(prime % modulus))
+                    {
+                        allTruncatesWereFound = false;
+                        break;
+                    }
+                    else
+                    {
+                        modulus = modulus / 10;
+                    }
+                }
+
+                var divisor = 10;
+                while (prime > 0 && divisor < prime)
+                {
+                    if (!primesUnder1M.Contains(prime / divisor))
+                    {
+                        allTruncatesWereFound = false;
+                        break;
+                    }
+                    else
+                    {
+                        divisor = divisor * 10;
+                    }
+                }
+
+                if (allTruncatesWereFound)
+                {
+                    count++;
+                    sum += prime;
+                }
+            }
+
+            Console.WriteLine(count);
+            Console.WriteLine(sum);
         }
     }
 }
