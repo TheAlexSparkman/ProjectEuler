@@ -94,7 +94,7 @@ namespace Problems
                 var potentialAnswer = findAnswer(kvp.Value);
                 if (potentialAnswer != null)
                 {
-                    Console.WriteLine(potentialAnswer);
+                    Assert.That(potentialAnswer, Is.EqualTo(2969_6299_9629.ToString()));
                     break;
                 }
             }
