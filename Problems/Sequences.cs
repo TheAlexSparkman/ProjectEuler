@@ -56,10 +56,11 @@ namespace Problems
             }
         }
 
-        public static IEnumerable<long> TriangleNumbers()
+        public static IEnumerable<long> TriangleNumbers(long initial = 0)
         {
-            long sum = 0;
-            long i = 1;
+            long sum = Series.Arithemtic(initial);
+            yield return sum;
+            long i = initial + 1;
             while (true)
             {
                 yield return sum += i;
@@ -76,6 +77,30 @@ namespace Problems
             long sqrt = (long)Math.Floor(Math.Sqrt(number));
             yield return 1;
             for (long i = 2; i <= sqrt; i++)
+            {
+                if (number % i == 0)
+                {
+                    yield return i;
+                    foreach (var factor in Divisors(number / i))
+                        yield return factor;
+                    yield return number / i;
+
+                    break;
+                }
+            }
+            yield return number;
+        }
+
+
+        public static List<BigInteger> UniqueDivisors(BigInteger number)
+            => Divisors(number)
+                .Distinct()
+                .ToList();
+
+        private static IEnumerable<BigInteger> Divisors(BigInteger number)
+        {
+            yield return 1;
+            for (BigInteger i = 2; i * i <= number; i++)
             {
                 if (number % i == 0)
                 {

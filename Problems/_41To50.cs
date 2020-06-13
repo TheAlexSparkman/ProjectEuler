@@ -102,5 +102,37 @@ namespace Problems
 
             Console.WriteLine();
         }
+
+        [Test]
+        public void Problem50()
+        {
+            // Assumptions:
+            //   We are looking for a sequence that is 21 terms or longer.  This sequence does not
+            //     contain 2.
+            //   If the sequence contains 2, then it must also contain an odd number of primes above 2.
+            //     e.g. the sequence length must be even.
+            //   If the sequence does not contain 2, then it must contain an even number of primes above 2.
+            //     e.g. the sequence length must be odd.
+            //   Each sequence is going to sum to a number that is greater than the greatest number in
+            //     the sequence.
+            //     Given that there are ~79,000 primes under 1,000,000, there is at least one prime, pS,
+            //       where a series of primes adds to pS, and each prime of the sequence is less than pS.
+            //       That means there are at least 79,000 (79,000 + 1) / 2 evaluations.
+
+            // Other observations:
+            //   pS - p1 = p0
+            //   pS - p2 - p1 = p0
+            //   pS - p3 - p2 - p1 = p0
+
+            // Not every even length sequence starting from 2 is prime:
+            //   2
+            //   3 => 5
+            //   5 => 10
+            //   7 => 17
+            //   11 => 28
+            //   13 => 41
+            //   17 => 58
+            //   19 => 77
+        }
     }
 }
