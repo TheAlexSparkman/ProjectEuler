@@ -195,5 +195,36 @@ namespace Problems
             Console.WriteLine(count);
             Console.WriteLine(sum);
         }
+
+        [Test]
+        public void Problem39()
+        {
+            int[] perimeters = new int[1001];
+            var max = 0;
+            var maxPerimeter = -1;
+            for (int a = 1; a < 1000; a++)
+            {
+                for (int b = a + 1; b < 1000; b++)
+                {
+                    var c = Math.Sqrt(a * a + b * b);
+                    if (Math.Floor(c) == c)
+                    {
+                        var p = a + b + (int)c;
+                        if (p <= 1000)
+                        {
+                            perimeters[p]++;
+
+                            if (maxPerimeter == -1 || max < perimeters[p])
+                            {
+                                maxPerimeter = p;
+                                max = perimeters[p];
+                            }
+                        }
+                    }
+                }
+            }
+
+            Assert.That(maxPerimeter, Is.EqualTo(840));
+        }
     }
 }
