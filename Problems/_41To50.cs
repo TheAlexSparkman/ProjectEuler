@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -26,6 +27,18 @@ namespace Problems
                 sum += Functions.Permutations(i, i);
             }
             Console.WriteLine(sum);
+        }
+
+        [Test]
+        public void Problem48()
+        {
+            var sum = new BigInteger(0);
+            for (int i = 1; i <= 1000; i++)
+            {
+                sum += BigInteger.Pow(new BigInteger(i), i);
+            }
+
+            Assert.That(sum % BigInteger.Pow(10, 10), Is.EqualTo(new BigInteger(9_110_846_700)));
         }
 
         [Test]
@@ -133,6 +146,64 @@ namespace Problems
             //   13 => 41
             //   17 => 58
             //   19 => 77
+
+            var primesUnder1M = Sequences.PrimesUnder(1_000_000)
+                .ToArray();
+
+            var primesLookup = new SortedSet<long>(primesUnder1M);
+
+            //var firstAboveHalf = new long[primesUnder1M.Length];
+
+
+            //for (int i = primesUnder1M.Length - 1; i >= 1; i--)
+            //{
+            //    var prime = primesUnder1M[i];
+            //    var halfOfPrime = prime / 2;
+
+            //    for (
+            //        long j
+            //            = i == primesUnder1M.Length - 1
+            //                ? i - 1
+            //                : firstAboveHalf[i + 1];
+            //        j >= 0;
+            //        j--
+            //    ) {
+            //        if (primesUnder1M[j] < halfOfPrime)
+            //        {
+            //            firstAboveHalf[i] = j + 1;
+            //            break;
+            //        }
+            //    }
+
+            //    Console.WriteLine(string.Join(", ", i, firstAboveHalf[i], prime, primesUnder1M[firstAboveHalf[i]]));
+            //}
+
+            long max = 0;
+            long maxPrime = 0;
+            for (int i = 0; i < primesUnder1M.Length; i++)
+            {
+                var sum = primesUnder1M[i];
+                for (int j = i + 1; j < primesUnder1M.Length; j++)
+                {
+                    sum += primesUnder1M[j];
+
+                    if (sum >= 1_000_000)
+                    {
+                        break;
+                    }
+
+                    if (primesLookup.Contains(sum))
+                    {
+                        if (max < j - i + 1)
+                        {
+                            max = j - i + 1;
+                            maxPrime = sum;
+                        }
+                    }
+                }
+            }
+
+            Assert.That(maxPrime, Is.EqualTo(997_651));
         }
     }
 }
