@@ -110,5 +110,8 @@ namespace Problems
 
         public static BigInteger Permutations(long n, long r)
             => Factorial(n) / Factorial(n - r);
+
+        public static BigInteger Combinations(long n, long r)
+            => Permutations(n, r) / Factorial(r);
     }
 }
