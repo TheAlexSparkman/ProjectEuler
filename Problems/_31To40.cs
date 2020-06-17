@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography;
@@ -249,6 +250,57 @@ namespace Problems
             }
 
             Assert.That(maxPerimeter, Is.EqualTo(840));
+        }
+
+        [Test]
+        public void Problem40()
+        {
+            var answer = Enumerable.Range(0, 7)
+                .Select(x => (long)Math.Pow(10, x))
+                .Select(x => digitOfChampernowneConstant(x))
+                .ToList()
+                .Aggregate(1L, (left, right) => left * right);
+
+            Assert.That(answer, Is.EqualTo(210));
+        }
+
+        private long digitOfChampernowneConstant(long digit)
+        {
+            digit--;
+
+            var numDigits = 1;
+            var numOfNumbersWithNumDigits = 9;
+            var digitTotal = numOfNumbersWithNumDigits * numDigits;
+
+            var digitMeta
+                = Enumerable.Range(0, 10)
+                    .Select(i => new
+                    {
+                        NumberOfDigits = (long)(i+1),
+                        NumbersWithNumberOfDigits = (long)Math.Pow(10, i) * 9,
+                        DigitCountOfNumbersWithNumberOfDigits = (long)Math.Pow(10, i) * 9 * (i+1),
+                        FirstNumber = (long)Math.Pow(10, i)
+                    })
+                    .ToList();
+
+            
+            foreach (var digitMetaItem in digitMeta)
+            {
+                if (0 <= digit && digit <= digitMetaItem.DigitCountOfNumbersWithNumberOfDigits)
+                {
+                    var digitPlace = digit % digitMetaItem.NumberOfDigits;
+                    var numbersToAdd = digit / digitMetaItem.NumberOfDigits;
+
+                    var theNumberWithTheDigit = digitMetaItem.FirstNumber + numbersToAdd;
+                    return theNumberWithTheDigit.ToString()[(int)digitPlace] - '0';
+                }
+                else
+                {
+                    digit -= digitMetaItem.DigitCountOfNumbersWithNumberOfDigits;
+                }
+            }
+
+            throw new InvalidProgramException();
         }
     }
 }
