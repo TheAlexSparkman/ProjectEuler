@@ -177,5 +177,30 @@ namespace Problems
 
             Assert.That(uniqueInts.Count, Is.EqualTo(9_183));
         }
+
+        [Test]
+        public void Problem30()
+        {
+            // What is the upper limit to this problem? 1,000,000?
+            // 9^5 = 59,049‬
+            // 1^5 = 0
+            long[] powers = new long[10];
+            for (int i = 0; i < powers.Length; i++)
+                powers[i] = (long) Math.Pow(i, 5);
+
+            long sum = 0, iSum;
+            for (long i = 10; i < 1_000_000; i++)
+            {
+                iSum = i.ToString()
+                    .Select(x => long.Parse(x.ToString()))
+                    .Select(x => powers[x])
+                    .Sum();
+
+                if (i == iSum)
+                    sum += i;
+            }
+
+            Assert.That(sum, Is.EqualTo(443_839));
+        }
     }
 }
