@@ -30,6 +30,32 @@ namespace Problems
         }
 
         [Test]
+        public void Problem45()
+        {
+            for (long i = 144; i < 1_000_000; i++)
+            {
+                long hexagonal = Functions.HexagonalNumber(i);
+
+
+                var triangleRoots = Functions.FindRoots(0.5, 0.5, -hexagonal)
+                    .Where(x => x > 0 && Math.Floor(x) == x)
+                    .ToList();
+
+                var pentagonalRoots = Functions.FindRoots(1.5, -0.5, -hexagonal)
+                    .Where(x => x > 0 && Math.Floor(x) == x)
+                    .ToList();
+
+
+                if (triangleRoots.Count > 0 && pentagonalRoots.Count > 0)
+                {
+                    Assert.That(hexagonal, Is.EqualTo(1_533_776_805));
+                    break;
+                }
+            }
+
+        }
+
+        [Test]
         public void Problem48()
         {
             var sum = new BigInteger(0);

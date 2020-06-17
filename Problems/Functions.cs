@@ -113,5 +113,23 @@ namespace Problems
 
         public static BigInteger Combinations(long n, long r)
             => Permutations(n, r) / Factorial(r);
+
+        public static long TriangleNumber(long n)
+            => n * (n + 1) / 2;
+        public static long PentagonalNumber(long n)
+            => n * (3 * n - 1) / 2;
+        public static long HexagonalNumber(long n)
+            => n * (2 * n - 1);
+
+
+        public static double[] FindRoots(double a, double b, double c)
+        => new double[] {
+            (-b + Math.Sqrt(b * b - 4 * a * c))
+                /
+                (2 * a),
+            (-b - Math.Sqrt(b * b - 4 * a * c))
+                /
+                (2 * a)
+        };
     }
 }
