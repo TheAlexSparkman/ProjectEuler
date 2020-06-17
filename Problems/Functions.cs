@@ -118,6 +118,12 @@ namespace Problems
             => n * (n + 1) / 2;
         public static long PentagonalNumber(long n)
             => n * (3 * n - 1) / 2;
+
+        public static bool IsPentagonalNumber(long n)
+            =>
+            Functions.FindRoots(3, -1, -2 * n)
+                .Any(x => x > 0 && Math.Floor(x) == x);
+
         public static long HexagonalNumber(long n)
             => n * (2 * n - 1);
 

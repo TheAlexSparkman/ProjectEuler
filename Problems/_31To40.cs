@@ -13,6 +13,30 @@ namespace Problems
     public class _31To40
     {
         [Test]
+        public void Problem34()
+        {
+            var factorials = new long[10];
+            factorials[0] = 1;
+            for (int i = 1; i < factorials.Length; i++)
+                factorials[i] = factorials[i - 1] * i;
+
+
+            var sum = 0;
+            for (int i = 10; i < 10_000_000; i++)
+            {
+                var factSum = i.ToString()
+                    .Select(x => (byte)x - (byte)'0')
+                    .Select(x => factorials[x])
+                    .Sum();
+
+                if (factSum == i)
+                    sum += i;
+            }
+
+            Assert.That(sum, Is.EqualTo(40_730));
+        }
+
+        [Test]
         public void Problem35()
         {
 

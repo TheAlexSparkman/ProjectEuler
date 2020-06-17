@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -27,6 +28,58 @@ namespace Problems
                 sum += Functions.Permutations(i, i);
             }
             Console.WriteLine(sum);
+        }
+
+        [Test]
+        public void Problem42()
+        {
+            var filename = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "p042_words.txt");
+            var fileContents = File.ReadAllText(filename);
+
+            var words = fileContents
+                .Split(',')
+                .Select(x => x.Substring(1, x.Length - 2))
+                .ToList();
+
+            var triangleWords = words
+                .Select(x => x.ToLower())
+                .Select(x => x.ToList()
+                                .Select(c => (byte)c - (byte)'a' + (byte)1)
+                                .Sum()
+                    )
+                .Count(x => Functions.FindRoots(1, 1, -2 * x)
+                                        .Any(root => root > 0 && Math.Floor(root) == root)
+                    );
+
+            Assert.That(triangleWords, Is.EqualTo(162));
+        }
+
+        [Test]
+        public void Problem44()
+        {
+            const int NUM = 1_000;
+            var arr = new long[NUM];
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] = Functions.PentagonalNumber(i);
+            }
+
+            for (int spacer = 1; spacer < arr.Length; spacer++)
+            {
+                for (int i = 0; i + spacer < arr.Length; i++)
+                {
+                    var a = arr[i];
+                    var b = arr[i + spacer];
+                    if (Functions.IsPentagonalNumber(a + b) && Functions.IsPentagonalNumber(a - b))
+                    {
+                        Console.WriteLine(a - b);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{a} {b}");
+                    }
+                }
+            }
         }
 
         [Test]
