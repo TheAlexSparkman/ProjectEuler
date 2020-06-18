@@ -9,7 +9,7 @@ namespace Problems
 {
     public class Sequences
     {
-        public static IEnumerable<long> PermutationsOf(int n, int offset = 1, int start = 1)
+        public static IEnumerable<long> PermutationsOf(int n, int offset = 0, int start = 1)
         {
             var digits = Enumerable.Range(0, n)
                 .ToArray();
@@ -42,7 +42,7 @@ namespace Problems
                     unchosenList.Remove((int)(answer[i]));
                 }
 
-                var result = answer.Select(a => n - a);
+                var result = answer.Select(a => n - a - offset);
                 yield return long.Parse(string.Join("", result));
 
 

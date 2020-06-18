@@ -16,7 +16,7 @@ namespace Problems
         [Test]
         public void Problem32()
         {
-            var permutations = Sequences.PermutationsOf(9, 1, 1)
+            var permutations = Sequences.PermutationsOf(9, 0, 1)
                 .ToList();
 
             SortedSet<long> products = new SortedSet<long>();

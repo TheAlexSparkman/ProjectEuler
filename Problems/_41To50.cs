@@ -36,7 +36,7 @@ namespace Problems
                 // permutations of 1 to n will be composites.
                 if (Series.Arithemtic(n) % 3 != 0)
                 {
-                    var permutationsOf = Sequences.PermutationsOf(n, 1, 1);
+                    var permutationsOf = Sequences.PermutationsOf(n, 0, 1);
                     foreach (var permutation in permutationsOf)
                     {
                         if (permutation % 2 != 0 && Functions.IsPrime(permutation))
@@ -71,6 +71,25 @@ namespace Problems
                     );
 
             Assert.That(triangleWords, Is.EqualTo(162));
+        }
+
+        [Test]
+        public void Problem43()
+        {
+
+            Func<long, bool> meetsProperty = (permutation) =>
+                ((permutation % 1_000_000_000) / 1_000_000) % 2 == 0 &&
+                ((permutation % 100_000_000) / 100_000) % 3 == 0 &&
+                ((permutation % 10_000_000) / 10_000) % 5 == 0 &&
+                ((permutation % 1_000_000) / 1_000) % 7 == 0 &&
+                ((permutation % 100_000) / 100) % 11 == 0 &&
+                ((permutation % 10_000) / 10) % 13 == 0 &&
+                ((permutation % 1_000)) % 17 == 0;
+
+            var sum = Sequences.PermutationsOf(10, 1, 1)
+                .Where(meetsProperty)
+                .Sum();
+            Console.WriteLine(sum);
         }
 
         [Test]
