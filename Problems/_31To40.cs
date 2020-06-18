@@ -14,6 +14,47 @@ namespace Problems
     public class _31To40
     {
         [Test]
+        public void Problem32()
+        {
+            var permutations = Sequences.PermutationsOf(9, 1, 1)
+                .ToList();
+
+            SortedSet<long> products = new SortedSet<long>();
+            long sum = 0;
+            foreach (var permutation in permutations)
+            {
+                {
+                    var left = permutation / 10_000_000;
+                    var right = (permutation % 10_000_000) / 10_000;
+                    var product = permutation % 10_000;
+
+                    if (left * right == product)
+                    {
+                        if (!products.Contains(product))
+                            products.Add(product);
+                    }
+                }
+
+
+                {
+                    var left = permutation / 100_000_000;
+                    var right = (permutation % 100_000_000) / 10_000;
+                    var product = permutation % 10_000;
+
+                    if (left * right == product)
+                    {
+                        if (!products.Contains(product))
+                            products.Add(product);
+                    }
+                }
+
+
+
+            }
+            Assert.That(products.Sum(), Is.EqualTo(45_228));
+        }
+
+        [Test]
         public void Problem34()
         {
             var factorials = new long[10];
