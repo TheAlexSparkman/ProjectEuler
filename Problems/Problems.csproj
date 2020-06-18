@@ -62,6 +62,7 @@
     <Compile Include="_21To30.cs" />
     <Compile Include="_31To40.cs" />
     <Compile Include="_41To50.cs" />
+    <Compile Include="_51To60.cs" />
     <Compile Include="_61To70.cs" />
   </ItemGroup>
   <ItemGroup>
