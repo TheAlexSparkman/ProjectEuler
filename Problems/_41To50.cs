@@ -76,7 +76,7 @@ namespace Problems
         [Test]
         public void Problem43()
         {
-
+            // This is pretty slow.
             Func<long, bool> meetsProperty = (permutation) =>
                 ((permutation % 1_000_000_000) / 1_000_000) % 2 == 0 &&
                 ((permutation % 100_000_000) / 100_000) % 3 == 0 &&
