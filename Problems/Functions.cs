@@ -30,6 +30,51 @@ namespace Problems
         public static bool IsPrime(long number)
             => LargestPrimeFactor(number) == number;
 
+        private static SortedSet<long> _primesUnder1M;
+        private static SortedSet<long> PrimesUnder1M
+        {
+            get
+            {
+                if (_primesUnder1M == null)
+                {
+                    var list = Sequences.PrimesUnder(1_000_000);
+                    _primesUnder1M = new SortedSet<long>(list);
+                }
+                return _primesUnder1M;
+            }
+        }
+        private static long[] _primesUnder1M_array;
+        private static long[] PrimesUnder1M_Array
+        {
+            get
+            {
+                if (_primesUnder1M_array == null)
+                {
+                    _primesUnder1M_array = PrimesUnder1M.ToArray();
+                }
+                return _primesUnder1M_array;
+            }
+        }
+
+        public static bool IsPrime_WithMemoized(long number)
+        {
+            if (number < 1_000_000L)
+                return PrimesUnder1M.Contains(number);
+            else if (number < 1_000_000L * 1_000_000L)
+            {
+                var sqrt = (long)Math.Floor(Math.Sqrt(number));
+                for (int i = 0; i < PrimesUnder1M_Array.Length && i <= sqrt; i++)
+                {
+                    if (number % PrimesUnder1M_Array[i] == 0)
+                        return false;
+                }
+
+                return true;
+            }
+            else
+                throw new ArgumentOutOfRangeException("number must be lower than 1,000,000^2");
+        }
+
         public static bool IsPalindrome(int num)
             => IsPalindrome(num.ToString());
 

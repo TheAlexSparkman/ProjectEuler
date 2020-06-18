@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 using System.Text;
@@ -29,11 +30,40 @@ namespace Problems
         }
 
         [Test]
-        public void Problem46()
+        public void Problem58()
         {
-            var primes = new SortedSet<long>(Sequences.PrimesUnder(1_000_000));
+            long bottom_right, bottom_left, top_left, top_right;
 
-            
+            long primeCount = 8;
+            long total = 13;
+            long i = 5;
+
+            while (true)
+            {
+                bottom_right = (2 * i - 1) * (2 * i - 1);
+                bottom_left = bottom_right - 2 * i;
+                top_left = bottom_right - 4 * i;
+                top_right = bottom_right - 6 * i;
+
+                if (Functions.IsPrime_WithMemoized(bottom_left))
+                    primeCount++;
+
+                if (Functions.IsPrime_WithMemoized(top_left))
+                    primeCount++;
+
+                if (Functions.IsPrime_WithMemoized(top_right))
+                    primeCount++;
+
+                total += 4;
+
+                if (primeCount * 10 < total)
+                    break;
+
+                i++;
+            }
+
+            Console.WriteLine(2 * i - 1);
+
         }
     }
 }
