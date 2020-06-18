@@ -28,6 +28,25 @@ namespace Problems
                 sum += Functions.Permutations(i, i);
             }
             Console.WriteLine(sum);
+
+            for (int n = 9; n >= 4; n--)
+            {
+                // arithmetic series is going to be the sum of the series 1 to n.
+                // If the sum of the series 1 to n is divisible by 3, all
+                // permutations of 1 to n will be composites.
+                if (Series.Arithemtic(n) % 3 != 0)
+                {
+                    var permutationsOf = Sequences.PermutationsOf(n, 1, 1);
+                    foreach (var permutation in permutationsOf)
+                    {
+                        if (permutation % 2 != 0 && Functions.IsPrime(permutation))
+                        {
+                            Assert.That(permutation, Is.EqualTo(7_652_413));
+                            return;
+                        }
+                    }
+                }
+            }
         }
 
         [Test]

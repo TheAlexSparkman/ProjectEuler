@@ -9,6 +9,46 @@ namespace Problems
 {
     public class Sequences
     {
+        public static IEnumerable<long> PermutationsOf(int n, int offset = 1, int start = 1)
+        {
+            var digits = Enumerable.Range(0, n)
+                .ToArray();
+
+            var permutationMaxes = digits
+                .OrderByDescending(x => x)
+                .Select(x => Functions.Permutations(x, x))
+                .ToArray();
+
+            var endCondition = Functions.Permutations(n, n);
+            var answer = new BigInteger[digits.Length];
+            var remainders = new BigInteger[digits.Length];
+            while (start - 1 < endCondition)
+            {
+                // We are using -1 to adjust to 0 ranked lists.
+                var targetPermutation = new BigInteger(start - 1);
+
+                var unchosenList = digits.ToList();
+                for (int i = 0; i < digits.Length; i++)
+                {
+                    remainders[i] = targetPermutation % permutationMaxes[i];
+                    if (i == 0)
+                    {
+                        answer[i] = unchosenList[(int)(targetPermutation / permutationMaxes[i])];
+                    }
+                    else
+                    {
+                        answer[i] = unchosenList[(int)(remainders[i - 1] / permutationMaxes[i])];
+                    }
+                    unchosenList.Remove((int)(answer[i]));
+                }
+
+                var result = answer.Select(a => n - a);
+                yield return long.Parse(string.Join("", result));
+
+
+                start++;
+            }
+        }
 
         public static IEnumerable<long> Fibonacci(long firstTerm, long secondTerm)
         {
