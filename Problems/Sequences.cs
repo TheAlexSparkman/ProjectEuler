@@ -107,51 +107,28 @@ namespace Problems
                 i++;
             }
         }
-        public static List<long> UniqueDivisors(long number)
-            => Divisors(number)
-                .Distinct()
-                .ToList();
 
-        private static IEnumerable<long> Divisors(long number)
+        public static IEnumerable<int> UniqueDivisors(int number)
         {
-            long sqrt = (long)Math.Floor(Math.Sqrt(number));
+            var stack = new Stack<int>();
+            long sqrt = (int)Math.Floor(Math.Sqrt(number));
             yield return 1;
-            for (long i = 2; i <= sqrt; i++)
+            for (int i = 2; i <= sqrt; i++)
             {
                 if (number % i == 0)
                 {
                     yield return i;
-                    foreach (var factor in Divisors(number / i))
-                        yield return factor;
-                    yield return number / i;
-
-                    break;
+                    stack.Push(number / i);
                 }
             }
-            yield return number;
-        }
 
-
-        public static List<BigInteger> UniqueDivisors(BigInteger number)
-            => Divisors(number)
-                .Distinct()
-                .ToList();
-
-        private static IEnumerable<BigInteger> Divisors(BigInteger number)
-        {
-            yield return 1;
-            for (BigInteger i = 2; i * i <= number; i++)
+            while (stack.Count > 0)
             {
-                if (number % i == 0)
-                {
-                    yield return i;
-                    foreach (var factor in Divisors(number / i))
-                        yield return factor;
-                    yield return number / i;
-
-                    break;
-                }
+                var val = stack.Pop();
+                if (val != sqrt)  // already added.
+                    yield return val;
             }
+
             yield return number;
         }
 

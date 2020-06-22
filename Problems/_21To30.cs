@@ -15,6 +15,56 @@ namespace Problems
     public class _21To30
     {
         [Test]
+        public void Problem21()
+        {
+            Func<int, dynamic> getDivisorsInfo = n =>
+            {
+                var uniqueDivisors = Sequences.UniqueDivisors(n).ToList();
+                return new
+                {
+                    Number = n,
+                    AmicableSum = uniqueDivisors.Sum() - n
+                };
+            };
+
+            var divisors_cache = Enumerable.Range(1, 9_999)
+                .Select(getDivisorsInfo)
+                .ToList();
+
+            var d_cache = divisors_cache
+                .ToDictionary(x => x.Number, x => x.AmicableSum);
+
+            Func<int, int> d = (n) =>
+            {
+                if (d_cache.ContainsKey(n))
+                    return d_cache[n];
+                else
+                {
+                    var divisorsInfo = getDivisorsInfo(n);
+
+                    divisors_cache.Add(divisorsInfo);
+                    d_cache.Add(divisorsInfo.Number, divisorsInfo.AmicableSum);
+
+                    return divisorsInfo.AmicableSum;
+                }
+            };
+
+            var amicableNumbersUnder10000 = Enumerable.Range(1, 9_999)
+                    .Where(a =>
+                    {
+                        var b = d(a);
+                        return a == d(b) && a != b;
+                    })
+                    .ToList();
+
+            var answer
+                = amicableNumbersUnder10000.Sum();
+            
+
+            Assert.That(answer, Is.EqualTo(31_626));
+        }
+
+        [Test]
         public void Problem22()
         {
             const int aAlphaValue = ((byte)'A') - 1;
