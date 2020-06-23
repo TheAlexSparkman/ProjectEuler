@@ -92,6 +92,45 @@ namespace Problems
         }
 
         [Test]
+        public void Problem23()
+        {
+            var abundantNumbers = new SortedSet<int>();
+            for (int n = 12; n <= 28_123; n++)
+            {
+                var uniqueDivisors = Sequences.UniqueDivisors(n);
+                var sum = uniqueDivisors.Sum() - n;
+
+                if (sum > n)
+                {
+                    abundantNumbers.Add(n);
+                }
+            }
+
+            var numbersThatAreNotSumOfTwoAbundantNumbers = new SortedSet<int>(
+                Enumerable.Range(1, 28_123)
+                    .Select(x => x)
+                    .ToList()
+            );
+
+            var abundantNumberList = abundantNumbers.ToList();
+            for (int i = 0; i < abundantNumberList.Count; i++)
+            {
+                var iNum = abundantNumberList[i];
+                for (int j = i; j < abundantNumberList.Count; j++)
+                {
+                    var jNum = abundantNumberList[j];
+
+                    var sum = iNum + jNum;
+
+                    if (numbersThatAreNotSumOfTwoAbundantNumbers.Contains(sum))
+                        numbersThatAreNotSumOfTwoAbundantNumbers.Remove(sum);
+                }
+            }
+
+            Assert.That(numbersThatAreNotSumOfTwoAbundantNumbers.Sum(), Is.EqualTo(4_179_871));
+        }
+
+        [Test]
         public void Problem24()
         {
             // What is the millionth lexicographic permutation of the digits 0-9?
