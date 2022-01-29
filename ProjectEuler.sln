@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.29911.84
+VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Problems", "Problems\Problems.csproj", "{5EDBF221-D0EF-44EF-8259-DAC55B65E579}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectEuler", "ProjectEuler\ProjectEuler.csproj", "{3E68A880-A5E6-47FC-8085-7146C464517F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5EDBF221-D0EF-44EF-8259-DAC55B65E579}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5EDBF221-D0EF-44EF-8259-DAC55B65E579}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5EDBF221-D0EF-44EF-8259-DAC55B65E579}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5EDBF221-D0EF-44EF-8259-DAC55B65E579}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E68A880-A5E6-47FC-8085-7146C464517F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E68A880-A5E6-47FC-8085-7146C464517F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E68A880-A5E6-47FC-8085-7146C464517F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E68A880-A5E6-47FC-8085-7146C464517F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {8E889DA1-5BEE-43F9-9088-8BEABC09C281}
+		SolutionGuid = {F23F65E6-2C02-4893-9C9C-A29692A37631}
 	EndGlobalSection
 EndGlobal
