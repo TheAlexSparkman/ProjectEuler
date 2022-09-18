@@ -7,9 +7,38 @@ namespace ProjectEuler.Problems.Problem81
 {
     public class Solver
     {
-        public long FindMinimalPathSum(long[][] matrix)
+        public long FindMinimalPathSum(Graph graph, Vertex start, Vertex end)
         {
-            throw new NotImplementedException();
+            start.Distance = 0;
+            foreach (var vertex in graph.Vertices)
+            {
+                if (vertex != start)
+                {
+                    vertex.Distance = long.MaxValue;
+                    vertex.Predecessor = null;
+                }
+            }
+
+            var initialPriorityQueue = graph.Vertices.Select(vertex => new KeyValuePair<long, Vertex>(vertex.Distance, vertex));
+            var priorityQueue = new PriorityQueue<long, Vertex>(initialPriorityQueue);
+
+            while (priorityQueue.Any())
+            {
+                var currentVertex = priorityQueue.Pop();
+                foreach (var edge in currentVertex.OutgoingEdges)
+                {
+                    var neighbor = edge.Destination;
+                    var candidateDistance = currentVertex.Distance + edge.Weight;
+                    if (candidateDistance < neighbor.Distance)
+                    {
+                        priorityQueue.Reprioritize(neighbor.Distance, candidateDistance, neighbor);
+                        neighbor.Distance = candidateDistance;
+                        neighbor.Predecessor = currentVertex;
+                    }
+                }
+            }
+
+            return end.Distance;
         }
 
         public long[][] ParseMatrixFromString(string matrix)
@@ -23,7 +52,7 @@ namespace ProjectEuler.Problems.Problem81
 
         public Graph ParseGraphFromMatrix(long[][] matrix)
         {
-            var vertices = new List<List<Vertex>>();
+            var verticesMatrixList = new List<List<Vertex>>();
             for (var y = 0; y < matrix.Length; y++)
             {
                 var row = new List<Vertex>();
@@ -37,10 +66,10 @@ namespace ProjectEuler.Problems.Problem81
                     };
                     row.Add(vertex);
                 }
-                vertices.Add(row);
+                verticesMatrixList.Add(row);
             }
 
-            var verticesMatrix = vertices.Select(x => x.ToArray()).ToArray();
+            var verticesMatrix = verticesMatrixList.Select(x => x.ToArray()).ToArray();
 
             var edges = new List<WDiEdge>();
             for (var y = 0; y < verticesMatrix.Length; y++)
@@ -49,21 +78,31 @@ namespace ProjectEuler.Problems.Problem81
                 var sources = row.Take(row.Length - 1);
                 var destinations = row.Skip(1);
                 var rowEdges = sources.Zip(destinations, (source, destination) => new WDiEdge() { Source = source, Destination = destination, Weight = destination.OriginalValue });
-                edges.AddRange(rowEdges);
+                foreach (var rowEdge in rowEdges)
+                {
+                    rowEdge.Source.OutgoingEdges.Add(rowEdge);
+                }
                 
                 if (y != verticesMatrix.Length - 1)
                 {
                     var nextRow = verticesMatrix[y + 1];
                     var columnEdges = row.Zip(nextRow, (source, destination) => new WDiEdge() { Source = source, Destination = destination, Weight = destination.OriginalValue });
-                    edges.AddRange(columnEdges);
+
+                    foreach (var columnEdge in columnEdges)
+                    {
+                        columnEdge.Source.OutgoingEdges.Add(columnEdge);
+                    }
                 }
             }
 
-            var result = new Graph()
-            {
-                Vertices = verticesMatrix,
-                Edges = edges
-            };
+            var startVertex = new Vertex { Y = -1, X = -1 };
+            var startingEdge = new WDiEdge { Source = startVertex, Destination = verticesMatrix[0][0], Weight = verticesMatrix[0][0].OriginalValue };
+            startVertex.OutgoingEdges = new[] { startingEdge };
+
+            var vertices = verticesMatrix.SelectMany(x => x).ToList();
+            vertices.Insert(0, startVertex);
+
+            var result = new Graph { Vertices = vertices };
             return result;
         }
     }

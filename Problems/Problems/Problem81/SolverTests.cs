@@ -1,4 +1,6 @@
 ﻿using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ProjectEuler.Problems.Problem81
 {
@@ -16,7 +18,29 @@ namespace ProjectEuler.Problems.Problem81
         [Test]
         public void ShouldFindMinimalPathSum()
         {
-            _sut.FindMinimalPathSum(null);
+            var matrix = _sut.ParseMatrixFromString(Mother.MatrixFromProblem);
+
+            var graph = _sut.ParseGraphFromMatrix(matrix);
+            var start = graph.Vertices.First();
+            var end = graph.Vertices.Last();
+
+            var actual = _sut.FindMinimalPathSum(graph, start, end);
+
+            Assert.That(actual, Is.EqualTo(427_337));
+        }
+
+        [Test]
+        public void ShouldFindMinimalPathSumGivenExampleProblem()
+        {
+            var matrix = _sut.ParseMatrixFromString(Mother.MatrixFromExampleProblem);
+
+            var graph = _sut.ParseGraphFromMatrix(matrix);
+            var start = graph.Vertices.First();
+            var end = graph.Vertices.Last();
+
+            var actual = _sut.FindMinimalPathSum(graph, start, end);
+
+            Assert.That(actual, Is.EqualTo(2_427));
         }
 
         [Test]
@@ -35,15 +59,18 @@ namespace ProjectEuler.Problems.Problem81
         {
             var matrix = Mother._2x2Matrix;
 
-            var vertexY0X0 = new Vertex() { Y = 0, X = 0, OriginalValue = 1 };
-            var vertexY0X1 = new Vertex() { Y = 0, X = 1, OriginalValue = 2 };
-            var vertexY1X0 = new Vertex() { Y = 1, X = 0, OriginalValue = 3 };
-            var vertexY1X1 = new Vertex() { Y = 1, X = 1, OriginalValue = 4 };
-            var expectedVertices = new Vertex[][]
+            var startVertex = new Vertex { Y = -1, X = -1, OriginalValue = 0 };
+            var vertexY0X0 = new Vertex { Y = 0, X = 0, OriginalValue = 1 };
+            var vertexY0X1 = new Vertex { Y = 0, X = 1, OriginalValue = 2 };
+            var vertexY1X0 = new Vertex { Y = 1, X = 0, OriginalValue = 3 };
+            var vertexY1X1 = new Vertex { Y = 1, X = 1, OriginalValue = 4 };
+            var expectedVertices = new[]
             {
-                new [] { vertexY0X0, vertexY0X1 },
-                new [] { vertexY1X0, vertexY1X1 },
+                startVertex,
+                vertexY0X0, vertexY0X1,
+                vertexY1X0, vertexY1X1
             };
+
             var expectedEdges = new []
             {
                 new WDiEdge { Source = vertexY0X0, Destination = vertexY0X1, Weight = vertexY0X1.OriginalValue },
@@ -51,14 +78,18 @@ namespace ProjectEuler.Problems.Problem81
                 new WDiEdge { Source = vertexY0X1, Destination = vertexY1X1, Weight = vertexY1X1.OriginalValue },
                 new WDiEdge { Source = vertexY1X0, Destination = vertexY1X1, Weight = vertexY1X1.OriginalValue }
             };
+            vertexY0X0.OutgoingEdges = new List<WDiEdge> { expectedEdges[0], expectedEdges[1] };
+            vertexY0X1.OutgoingEdges = new List<WDiEdge> { expectedEdges[2] };
+            vertexY1X0.OutgoingEdges = new List<WDiEdge> { expectedEdges[3] };
+
+            startVertex.OutgoingEdges = new[] { new WDiEdge { Source = startVertex, Destination = vertexY0X0, Weight = vertexY0X0.OriginalValue } };
 
             var actual = _sut.ParseGraphFromMatrix(matrix);
 
-            for (var i = 0; i < actual.Vertices.Length; i++)
-            {
-                Assert.That(actual.Vertices[i], Is.EqualTo(expectedVertices[i]));
-            }
-            Assert.That(actual.Edges, Is.EqualTo(expectedEdges));
+            Assert.That(actual.Vertices.ToList(), Is.EqualTo(expectedVertices.ToList()));
+            var actualVertexEdgeTuples = actual.Vertices.SelectMany(vertex => vertex.OutgoingEdges.Select(edge => (vertex, edge)));
+            var expectedVertexEdgeTuples = expectedVertices.SelectMany(vertex => vertex.OutgoingEdges.Select(edge => (vertex, edge)));
+            Assert.That(actualVertexEdgeTuples, Is.EqualTo(expectedVertexEdgeTuples));
         }
     }
 }

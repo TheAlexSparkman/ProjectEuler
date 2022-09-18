@@ -11,7 +11,7 @@ namespace ProjectEuler.Problems.Problem81
         public int X { get; set; }
         public int Y { get; set; }
         public long OriginalValue { get; set; }
-        public List<WDiEdge> OutgoingEdges { get; set; } = new List<WDiEdge>();
+        public IList<WDiEdge> OutgoingEdges { get; set; } = new List<WDiEdge>();
 
         public Vertex Predecessor { get; set; }
         public long Distance { get; set; }

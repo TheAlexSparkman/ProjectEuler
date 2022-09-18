@@ -8,8 +8,6 @@ namespace ProjectEuler.Problems.Problem81.Domain
 {
     public class Graph
     {
-        public Vertex[][] Vertices { get; set; }
-
-        public IEnumerable<WDiEdge> Edges { get; set; }
+        public IEnumerable<Vertex> Vertices { get; set; }
     }
 }
